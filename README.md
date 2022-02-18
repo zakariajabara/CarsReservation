@@ -23,7 +23,7 @@ Der Inhaber hat keine Garage, wo er seine Autos parkt, oft stehen sie verschiede
 die im Zeigt welches Auto udn wo sie geparkt ist.
 
 
-<b>Use Cases</b>:
+<b>Use Cases</b><br/>:
 Inhaber fügt die Daten eines neuen Kunden im System, benötigt sind hier name mit Vorname, Tel. Nr und Herkunftsland.
 Inhaber fügt die Daten eines neuen Mietwagen im System (Marke, Model, Getriebe, Kraftstoff, Anzahl Sitzplätze)
 Inhaber fügt einen Auftrag (Welches Auto, zu welchen Munden, Abgabedatum und Dauer, Ort: Abgabe udn Rückgabe, Preis) 
