@@ -1,5 +1,5 @@
 # CarsReservation
-develop a java Application witch manage rent cars
+develop a java Application witch manage leasing cars
 
 Die Nizar Travell Agency ist ein kleines Unternehmen, welches Autos zu seinen Kunden, ausshliesslich aus den Golfstaaten, vermietet.
 
