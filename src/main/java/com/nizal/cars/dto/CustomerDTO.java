@@ -17,8 +17,8 @@ public class CustomerDTO {
 	@Column(name = "NAME")
 	private String name;
 
-	@Column(name = "CONTRY")
-	private String contry;
+	@Column(name = "COUNTRY")
+	private String country;
 	@Column(name = "TEL")
 	private String tel;
 	
@@ -34,11 +34,11 @@ public class CustomerDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getContry() {
-		return contry;
+	public String getCountry() {
+		return country;
 	}
-	public void setContry(String contry) {
-		this.contry = contry;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 	public String getTel() {
 		return tel;

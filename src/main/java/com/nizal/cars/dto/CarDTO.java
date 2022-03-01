@@ -49,7 +49,4 @@ public class CarDTO {
 	public void setLicenceNumber(String licenceNumber) {
 		this.licenceNumber = licenceNumber;
 	}
-	
-	
-
 }
