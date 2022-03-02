@@ -1,7 +1,6 @@
 package com.nizal.cars.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nizal.cars.dto.CarDTO;
 import com.nizal.cars.dto.CustomerDTO;
+import com.nizal.cars.dto.CustomerErrorType;
 import com.nizal.cars.repository.CustomerJpaRepository;
 
 @RestController
@@ -34,11 +35,15 @@ public class CustomerController {
 	public ResponseEntity<List<CustomerDTO>> listAllCustomers() {
 		//List<CustomerDTO> customers = new ArrayList<CustomerDTO>();
 		List<CustomerDTO> customers = customerJpaRepository.findAll();
+		if(customers.isEmpty()) {
+			return new ResponseEntity<List<CustomerDTO>>(HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<List<CustomerDTO>>(customers, HttpStatus.OK);
 	}
-	
+
 	@PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CustomerDTO> createUser(@RequestBody final CustomerDTO user) {
+		
 	  customerJpaRepository.save(user);
 	  return new ResponseEntity<CustomerDTO>(user, HttpStatus.CREATED);
 	}
@@ -46,6 +51,11 @@ public class CustomerController {
 	@GetMapping("/{id}")
 	public ResponseEntity<CustomerDTO> getCustomerbyID(@PathVariable("id") final Long id) {
 		CustomerDTO customer = (customerJpaRepository.findById(id)).get();
+		if(customer == null) {
+			return new ResponseEntity<CustomerDTO>(new CustomerErrorType("Customer with id"+ 
+		  id + " not found"), HttpStatus.NOT_FOUND);
+					
+		}
 		return new ResponseEntity<CustomerDTO> (customer, HttpStatus.OK);
 	}
 	

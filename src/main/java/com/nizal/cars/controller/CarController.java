@@ -1,6 +1,7 @@
 package com.nizal.cars.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nizal.cars.dto.CarDTO;
+import com.nizal.cars.dto.CarErrorType;
 import com.nizal.cars.repository.CarJpaRepository;
 
 @RestController
@@ -31,22 +33,36 @@ public class CarController {
 	
 	@GetMapping("/")
 	public ResponseEntity<List<CarDTO>> listAllCars() {
-		//List<CarDTO> cars = new ArrayList<CarDTO>();
 		List<CarDTO> cars = carJpaRepository.findAll();
+		if(cars.isEmpty()) {
+			return new ResponseEntity<List<CarDTO>>(HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<List<CarDTO>>(cars, HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CarDTO> createCar(@RequestBody final CarDTO car){
-		System.out.println("Create Car");
-		carJpaRepository.save(car);
-		return new ResponseEntity<CarDTO>(car, HttpStatus.CREATED);
+		CarDTO currentCar = carJpaRepository.findByLicenceNumber(car.getLicenceNumber());
+		if(currentCar != null) {
+			CarDTO errorClasse= new CarErrorType("Car with licence number "+ car.getLicenceNumber()+ " Already exists");
+			errorClasse.setBrand(car.getBrand());
+			errorClasse.setModell(car.getModell());
+			errorClasse.setLicenceNumber(car.getLicenceNumber());
+			return new ResponseEntity<CarDTO>(errorClasse, HttpStatus.CONFLICT);
+		}
+	    carJpaRepository.save(car);
+	    return new ResponseEntity<CarDTO>(car, HttpStatus.CREATED);
+ 
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<CarDTO> findCarById(@PathVariable("id") final Long id ){
-		CarDTO car = carJpaRepository.findById(id).get();
-		return new ResponseEntity<CarDTO>(car, HttpStatus.OK);
+		Optional<CarDTO> car = carJpaRepository.findById(id);
+		if(!car.isPresent()) {
+			return new ResponseEntity<CarDTO>(new CarErrorType("Car with id "+
+		       id + " not found"), HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<CarDTO>(car.get(), HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/{id}", consumes= MediaType.APPLICATION_JSON_VALUE)
@@ -64,6 +80,11 @@ public class CarController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<CarDTO> deleteCar(@PathVariable("id") final Long id){
+		Optional<CarDTO> car = carJpaRepository.findById(id);
+		if(car != null && !car.isPresent()) {
+			return new ResponseEntity<CarDTO>(new CarErrorType("Unable to delete. Car with car id " 
+					+ id +" not found"), HttpStatus.NOT_FOUND);
+		}
 		carJpaRepository.deleteById(id);
 		return new ResponseEntity<CarDTO>(HttpStatus.NO_CONTENT);
 	}

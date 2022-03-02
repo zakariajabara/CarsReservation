@@ -9,4 +9,5 @@ import com.nizal.cars.dto.CarDTO;
 public interface CarJpaRepository extends JpaRepository<CarDTO, Long> {
 
 	CarDTO findByBrand(String brand);
+	CarDTO findByLicenceNumber(String licenceNumber);
 }
