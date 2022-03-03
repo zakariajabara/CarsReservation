@@ -6,6 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
+
+
 @Entity
 @Table(name = "Cars")
 public class CarDTO {
@@ -15,22 +19,25 @@ public class CarDTO {
 	@Column(name="CAR_ID")
 	private Long id;
 	
+	@Length(max = 15, min = 2)	
+	@Column(name="BRAND")
+	private String brand;
+	
+	@Length(min=2, max=20)
+	@Column(name="MODELL")
+	private String modell;
+	
+	@Length(min=2, max=10)
+	@Column(name="LICENCE_NUMBER")
+	private String licenceNumber;
+
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	@Column(name="BRAND")
-	private String brand;
-	
-	@Column(name="MODELL")
-	private String modell;
-	
-	@Column(name="LICENCE_NUMBER")
-	private String licenceNumber;
-	
+
 	public String getBrand() {
 		return brand;
 	}

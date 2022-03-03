@@ -8,5 +8,5 @@ import com.nizal.cars.dto.CustomerDTO;
 @Repository
 public interface CustomerJpaRepository extends JpaRepository<CustomerDTO, Long> {
 	CustomerDTO findByName(String name);
-	
+	CustomerDTO findByTel(String tel);
 }

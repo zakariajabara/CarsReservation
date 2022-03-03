@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name = "Customers")
 public class CustomerDTO {
@@ -14,11 +16,15 @@ public class CustomerDTO {
     @GeneratedValue
 	@Column(name = "USER_ID")
 	private Long id;
+	
+	@Length(min=2, max=50, message="error.name.length")
 	@Column(name = "NAME")
 	private String name;
 
+	@Length(min=2, max=20, message="error.country.length")
 	@Column(name = "COUNTRY")
 	private String country;
+	
 	@Column(name = "TEL")
 	private String tel;
 	

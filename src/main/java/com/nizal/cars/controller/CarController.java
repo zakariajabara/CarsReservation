@@ -52,7 +52,6 @@ public class CarController {
 		}
 	    carJpaRepository.save(car);
 	    return new ResponseEntity<CarDTO>(car, HttpStatus.CREATED);
- 
 	}
 	
 	@GetMapping("/{id}")
@@ -68,6 +67,9 @@ public class CarController {
 	@PutMapping(value = "/{id}", consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CarDTO> updateCar(@PathVariable("id") final Long id , @RequestBody CarDTO car ) {
 		//fetch car based on id and set it the the curent Customer
+		if(!carJpaRepository.findById(id).isPresent())
+			return new ResponseEntity<CarDTO>(new CarErrorType("Car with id "+ id + " not found"), HttpStatus.NOT_FOUND);
+
 		CarDTO currentCar = carJpaRepository.findById(id).get();
 		currentCar.setBrand(car.getBrand());
 		currentCar.setModell(car.getModell());

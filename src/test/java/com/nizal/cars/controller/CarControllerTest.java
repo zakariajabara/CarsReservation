@@ -66,7 +66,7 @@ public class CarControllerTest {
 	@Test
 	public void testGetRequest() throws Exception{
 		MockHttpServletResponse response = mvc.perform(get("/api/car/").accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
-		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+		assertThat(response.getStatus()).isEqualTo(HttpStatus.NO_CONTENT.value());
 	}
 	
 	
