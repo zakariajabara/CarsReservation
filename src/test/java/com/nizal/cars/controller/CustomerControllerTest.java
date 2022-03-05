@@ -71,11 +71,12 @@ public class CustomerControllerTest {
 	@Test
 	public void testGetMappingWithContent() throws Exception{
 		testCustomer = createCustomer(2L);
-		MockHttpServletResponse  response = mvc.perform(
+		/*MockHttpServletResponse  response = mvc.perform(
                 post("/api/customer/").contentType(MediaType.APPLICATION_JSON)
                         .content(jsonResult.write(testCustomer).getJson()))
-                .andReturn().getResponse();
-		response = mvc.perform(get("/api/customer/").accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
+                .andReturn().getResponse();*/
+		MockHttpServletResponse  response = mvc.perform(get("/api/customer/").accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
+		//System.out.println("Content " +response.getContentAsString()+ " /"); 
 		//assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.name());
 	}
 
